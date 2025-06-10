@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корочки.есть - Портал онлайн-курсов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --gray: #8d99ae;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 15px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .auth-btn {
+            background: none;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-btn i {
+            margin-right: 8px;
+        }
+        
+        .login-btn {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .register-btn {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: white;
+            gap: 10px;
+        }
+        
+        .user-info img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .page {
+            display: none;
+            padding: 40px 0;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active-page {
+            display: block;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark);
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+        
+        .page-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-group label i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #fafbfc;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.35);
+        }
+        
+        .btn-block {
+            display: flex;
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(90deg, var(--success) 0%, #3a7bd5 100%);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(90deg, var(--warning) 0%, #c53d8a 100%);
+        }
+        
+        .error {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .message {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .message-success {
+            background-color: rgba(76, 201, 240, 0.15);
+            border: 1px solid var(--success);
+            color: #1a7e9c;
+        }
+        
+        .message-error {
+            background-color: rgba(247, 37, 133, 0.1);
+            border: 1px solid var(--warning);
+            color: #c53d8a;
+        }
+        
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .application-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .card-body p {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        
+        .card-body strong {
+            min-width: 140px;
+            display: inline-block;
+            color: var(--dark);
+        }
+        
+        .card-footer {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .app-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .app-status i {
+            margin-right: 8px;
+        }
+        
+        .status-new {
+            background-color: rgba(67, 97, 238, 0.15);
+            color: var(--primary);
+        }
+        
+        .status-in-progress {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-completed {
+            background-color: rgba(76, 201, 240, 0.15);
+            color: var(--success);
+        }
+        
+        .admin-panel {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .admin-menu {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px 0;
+        }
+        
+        .admin-menu ul {
+            list-style: none;
+        }
+        
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .admin-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .admin-menu a:hover,
+        .admin-menu a.active {
+            background-color: rgba(67, 97, 238, 0.08);
+            color: var(--primary);
+        }
+        
+        .admin-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 30px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #fafbfc;
+        }
+        
+        .status-select {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            background: #fafbfc;
+            font-weight: 500;
+            min-width: 180px;
+        }
+        
+        .review-form {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: rgba(67, 97, 238, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-section a i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 180px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .course-content {
+            padding: 25px;
+        }
+        
+        .course-content h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .course-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-panel {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .auth-buttons {
+                margin-top: 10px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Корочки.есть</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Главная</a></li>
+                        <li><a href="#" onclick="showPage('courses')"><i class="fas fa-book"></i> Курсы</a></li>
+                        <li><a href="#" onclick="showPage('applications')"><i class="fas fa-file-alt"></i> Заявки</a></li>
+                        <li><a href="#" onclick="showPage('about')"><i class="fas fa-info-circle"></i> О нас</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <button class="auth-btn login-btn" onclick="showPage('login')">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                    <button class="auth-btn register-btn" onclick="showPage('register')">
+                        <i class="fas fa-user-plus"></i> Регистрация
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <main class="container">
+        <!-- Главная страница -->
+        <div id="home" class="page active-page">
+            <div class="hero">
+                <h1>Онлайн-курсы дополнительного профессионального образования</h1>
+                <p>Получите новые знания, повысьте квалификацию и станьте востребованным специалистом</p>
+                <button class="btn" onclick="showPage('courses')">
+                    <i class="fas fa-book-open"></i> Выбрать курс
+                </button>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Преподаватели-практики</h3>
+                    <p>Обучение ведут специалисты с реальным опытом работы в ведущих компаниях отрасли</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Гибкий график</h3>
+                    <p>Занимайтесь в удобное время из любой точки мира. Доступ к материалам 24/7</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Документ об окончании</h3>
+                    <p>Получите официальное удостоверение о повышении квалификации, признаваемое работодателями</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница курсов -->
+        <div id="courses" class="page">
+            <h2 class="page-title">Наши курсы</h2>
+            <p class="page-description">Выберите программу дополнительного профессионального образования для развития карьеры</p>
+            
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Веб-разработка на JavaScript</h3>
+                        <p>Полный курс по современной веб-разработке с использованием React, Node.js и Express</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 120 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 24 900</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Дизайн интерфейсов</h3>
+                        <p>Профессиональный курс по UI/UX дизайну с практикой в Figma и Adobe XD</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 90 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 19 900</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Анализ данных на Python</h3>
+                        <p>Освойте анализ данных с использованием библиотек Pandas, NumPy, Matplotlib и Scikit-learn</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 100 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 22 500</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Интернет-маркетинг</h3>
+                        <p>Комплексное обучение digital-маркетингу: SEO, контекстная реклама, SMM, email-маркетинг</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 80 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 18 500</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Управление проектами</h3>
+                        <p>Освойте методологии Agile, Scrum, Kanban и Waterfall для эффективного управления проектами</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 110 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 26 000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3>Кибербезопасность</h3>
+                        <p>Обеспечение информационной безопасности, анализ уязвимостей и защита от атак</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 140 часов</span>
+                            <span><i class="fas fa-ruble-sign"></i> 32 000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница регистрации -->
+        <div id="register" class="page">
+            <h2 class="page-title">Регистрация</h2>
+            <p class="page-description">Создайте аккаунт, чтобы получить доступ ко всем возможностям портала</p>
+            
+            <div class="form-container">
+                <div class="message message-error" id="register-error"></div>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="fullname"><i class="fas fa-user"></i> ФИО</label>
+                        <input type="text" id="fullname" placeholder="Иванов Иван Иванович" required>
+                        <div class="error" id="fullname-error">Введите ФИО кириллицей (минимум 3 слова)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Телефон</label>
+                        <input type="tel" id="phone" placeholder="+7(XXX)-XXX-XX-XX" required>
+                        <div class="error" id="phone-error">Введите телефон в формате +7(XXX)-XXX-XX-XX</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" placeholder="example@mail.com" required>
+                        <div class="error" id="email-error">Введите корректный email</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login"><i class="fas fa-user-circle"></i> Логин</label>
+                        <input type="text" id="login" placeholder="Минимум 6 символов кириллицы" required>
+                        <div class="error" id="login-error">Логин должен содержать минимум 6 символов кириллицы</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Пароль</label>
+                        <input type="password" id="password" placeholder="Минимум 6 символов" required>
+                        <div class="error" id="password-error">Пароль должен содержать минимум 6 символов</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password"><i class="fas fa-lock"></i> Подтверждение пароля</label>
+                        <input type="password" id="confirm-password" required>
+                        <div class="error" id="confirm-error">Пароли не совпадают</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">
+                        <i class="fas fa-user-plus"></i> Зарегистрироваться
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Страница авторизации -->
+        <div id="login" class="page">
+            <h2 class="page-title">Авторизация</h2>
+            <p class="page-description">Войдите в свой аккаунт для доступа к личному кабинету</p>
+            
+            <div class="form-container">
+                <div class="message message-error" id="login-error"></div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username"><i class="fas fa-user"></i> Логин</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password"><i class="fas fa-lock"></i> Пароль</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>Ещё не зарегистрированы? <a href="#" onclick="showPage('register')" style="color: var(--primary);">Создать аккаунт</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Страница заявок -->
+        <div id="applications" class="page">
+            <h2 class="page-title">Мои заявки</h2>
+            <p class="page-description">Ваши заявки на обучение и их текущий статус</p>
+            
+            <button class="btn" onclick="showPage('new-application')">
+                <i class="fas fa-plus-circle"></i> Создать новую заявку
+            </button>
+            
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-code"></i> Веб-разработка на JavaScript</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Дата начала:</strong> 15.09.2023</p>
+                        <p><strong>Способ оплаты:</strong> Банковский перевод</p>
+                        <p><strong>Статус:</strong> <span class="app-status status-in-progress"><i class="fas fa-spinner"></i> Идет обучение</span></p>
+                        <p><strong>Дата подачи:</strong> 10.07.2023</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-comment"></i> Оставить отзыв
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-paint-brush"></i> Дизайн интерфейсов</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Дата начала:</strong> 10.08.2023</p>
+                        <p><strong>Способ оплаты:</strong> Наличные</p>
+                        <p><strong>Статус:</strong> <span class="app-status status-completed"><i class="fas fa-check-circle"></i> Обучение завершено</span></p>
+                        <p><strong>Дата подачи:</strong> 25.06.2023</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-star"></i> Оставить отзыв
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Анализ данных на Python</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Дата начала:</strong> 01.10.2023</p>
+                        <p><strong>Способ оплаты:</strong> Банковский перевод</p>
+                        <p><strong>Статус:</strong> <span class="app-status status-new"><i class="fas fa-clock"></i> Новая заявка</span></p>
+                        <p><strong>Дата подачи:</strong> 05.08.2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Форма создания заявки -->
+        <div id="new-application" class="page">
+            <h2 class="page-title">Новая заявка на обучение</h2>
+            <p class="page-description">Заполните форму для подачи заявки на курс</p>
+            
+            <div class="form-container">
+                <div class="message message-success" id="app-success">Заявка успешно отправлена на рассмотрение!</div>
+                <form id="application-form">
+                    <div class="form-group">
+                        <label for="course"><i class="fas fa-book"></i> Наименование курса</label>
+                        <select id="course" required>
+                            <option value="">Выберите курс</option>
+                            <option value="web">Веб-разработка на JavaScript</option>
+                            <option value="design">Дизайн интерфейсов</option>
+                            <option value="python">Анализ данных на Python</option>
+                            <option value="marketing">Интернет-маркетинг</option>
+                            <option value="management">Управление проектами</option>
+                            <option value="security">Кибербезопасность</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="start-date"><i class="fas fa-calendar-alt"></i> Желаемая дата начала обучения</label>
+                        <input type="date" id="start-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-money-bill-wave"></i> Способ оплаты</label>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                            <div>
+                                <input type="radio" id="cash" name="payment" value="cash" checked>
+                                <label for="cash">Наличные (при заключении договора)</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="bank" name="payment" value="bank">
+                                <label for="bank">Перевод на банковский счет</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">
+                        <i class="fas fa-paper-plane"></i> Отправить заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Панель администратора -->
+        <div id="admin" class="page">
+            <h2 class="page-title">Панель администратора</h2>
+            <p class="page-description">Управление заявками и пользователями портала</p>
+            
+            <div class="admin-panel">
+                <div class="admin-menu">
+                    <ul>
+                        <li><a href="#" class="active"><i class="fas fa-tasks"></i> Заявки</a></li>
+                        <li><a href="#"><i class="fas fa-users"></i> Пользователи</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Курсы</a></li>
+                        <li><a href="#"><i class="fas fa-chart-bar"></i> Статистика</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Настройки</a></li>
+                        <li><a href="#" onclick="showPage('home')"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
+                    </ul>
+                </div>
+                
+                <div class="admin-content">
+                    <h3><i class="fas fa-tasks"></i> Управление заявками</h3>
+                    <p>Просмотр и изменение статусов заявок пользователей</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Пользователь</th>
+                                <th>Курс</th>
+                                <th>Дата начала</th>
+                                <th>Оплата</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1024</td>
+                                <td>Иванов И.И.</td>
+                                <td>Веб-разработка на JavaScript</td>
+                                <td>15.09.2023</td>
+                                <td>Банковский перевод</td>
+                                <td>
+                                    <select class="status-select">
+                                        <option value="new">Новая</option>
+                                        <option value="in_progress" selected>Идет обучение</option>
+                                        <option value="completed">Обучение завершено</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1023</td>
+                                <td>Петрова А.С.</td>
+                                <td>Дизайн интерфейсов</td>
+                                <td>10.08.2023</td>
+                                <td>Наличные</td>
+                                <td>
+                                    <select class="status-select">
+                                        <option value="new">Новая</option>
+                                        <option value="in_progress">Идет обучение</option>
+                                        <option value="completed" selected>Обучение завершено</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1025</td>
+                                <td>Сидоров П.К.</td>
+                                <td>Анализ данных на Python</td>
+                                <td>01.10.2023</td>
+                                <td>Банковский перевод</td>
+                                <td>
+                                    <select class="status-select">
+                                        <option value="new" selected>Новая</option>
+                                        <option value="in_progress">Идет обучение</option>
+                                        <option value="completed">Обучение завершено</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1026</td>
+                                <td>Кузнецова Е.В.</td>
+                                <td>Интернет-маркетинг</td>
+                                <td>20.09.2023</td>
+                                <td>Наличные</td>
+                                <td>
+                                    <select class="status-select">
+                                        <option value="new" selected>Новая</option>
+                                        <option value="in_progress">Идет обучение</option>
+                                        <option value="completed">Обучение завершено</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1027</td>
+                                <td>Федоров Д.А.</td>
+                                <td>Кибербезопасность</td>
+                                <td>05.10.2023</td>
+                                <td>Банковский перевод</td>
+                                <td>
+                                    <select class="status-select">
+                                        <option value="new" selected>Новая</option>
+                                        <option value="in_progress">Идет обучение</option>
+                                        <option value="completed">Обучение завершено</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="review-form">
+                        <h4><i class="fas fa-comments"></i> Обратная связь</h4>
+                        <p>Вы можете оставить комментарий к заявке пользователя</p>
+                        <div class="form-group">
+                            <label for="admin-comment"><i class="fas fa-edit"></i> Комментарий</label>
+                            <textarea id="admin-comment" rows="4" placeholder="Введите ваш комментарий..."></textarea>
+                        </div>
+                        <button class="btn">
+                            <i class="fas fa-save"></i> Сохранить комментарий
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница "О нас" -->
+        <div id="about" class="page">
+            <h2 class="page-title">О нас</h2>
+            <div class="form-container">
+                <h3 style="margin-bottom: 20px; color: var(--primary);">Кто мы?</h3>
+                <p style="margin-bottom: 20px;">
+                    Портал "Корочки.есть" - это современная образовательная платформа, специализирующаяся на дополнительном профессиональном образовании. 
+                    Мы помогаем людям получать актуальные знания и навыки, востребованные на рынке труда.
+                </p>
+                
+                <h3 style="margin-bottom: 20px; color: var(--primary);">Наша миссия</h3>
+                <p style="margin-bottom: 20px;">
+                    Сделать качественное образование доступным для каждого, независимо от места проживания, возраста и текущего уровня знаний. 
+                    Мы стремимся помочь нашим студентам достичь профессиональных целей и реализовать свой потенциал.
+                </p>
+                
+                <h3 style="margin-bottom: 20px; color: var(--primary);">Наши преимущества</h3>
+                <ul style="margin-left: 30px; margin-bottom: 20px;">
+                    <li>Практико-ориентированные программы обучения</li>
+                    <li>Преподаватели-эксперты из индустрии</li>
+                    <li>Гибкий график обучения</li>
+                    <li>Поддержка кураторов на всех этапах</li>
+                    <li>Официальные документы об окончании</li>
+                    <li>Помощь в трудоустройстве</li>
+                </ul>
+                
+                <div style="display: flex; justify-content: center; margin-top: 30px;">
+                    <button class="btn" onclick="showPage('courses')">
+                        <i class="fas fa-book-open"></i> Выбрать курс
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Корочки.есть</h3>
+                    <p>Портал онлайн-курсов дополнительного профессионального образования</p>
+                    <p>Получите новые знания и официальное удостоверение о повышении квалификации</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Главная</a></li>
+                        <li><a href="#" onclick="showPage('courses')"><i class="fas fa-chevron-right"></i> Курсы</a></li>
+                        <li><a href="#" onclick="showPage('applications')"><i class="fas fa-chevron-right"></i> Мои заявки</a></li>
+                        <li><a href="#" onclick="showPage('about')"><i class="fas fa-chevron-right"></i> О нас</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-phone"></i> +7 (495) 123-45-67</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@koro4ki-est.ru</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Москва, ул. Образовательная, д. 15</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> Пн-Пт: 9:00 - 18:00</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Подписка</h3>
+                    <p>Подпишитесь на новости о новых курсах и акциях</p>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <input type="email" placeholder="Ваш email" style="width: 100%;">
+                    </div>
+                    <button class="btn btn-block" style="margin-top: 10px;">
+                        <i class="fas fa-paper-plane"></i> Подписаться
+                    </button>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 Портал онлайн-курсов "Корочки.есть". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Текущая страница
+        let currentPage = 'home';
+        
+        // Показать страницу
+        function showPage(pageId) {
+            // Скрыть текущую страницу
+            if (currentPage) {
+                document.getElementById(currentPage).classList.remove('active-page');
+            }
+            
+            // Показать новую страницу
+            document.getElementById(pageId).classList.add('active-page');
+            currentPage = pageId;
+            
+            // Специальная обработка для панели администратора
+            if (pageId === 'admin') {
+                // Проверка логина и пароля администратора
+                const login = prompt('Введите логин администратора:', 'admin');
+                const password = prompt('Введите пароль администратора:', 'education');
+                
+                if (login !== 'admin' || password !== 'education') {
+                    alert('Неверные учетные данные администратора!');
+                    showPage('login');
+                }
+            }
+            
+            // Прокрутить вверх страницы
+            window.scrollTo(0, 0);
+            
+            return false;
+        }
+        
+        // Валидация форм
+        document.addEventListener('DOMContentLoaded', function() {
+            // Валидация регистрации
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let valid = true;
+                
+                // Проверка ФИО (только кириллица и пробелы)
+                const fullname = document.getElementById('fullname').value;
+                if (!/^[А-Яа-яЁё\s]{5,}$/.test(fullname) || fullname.split(' ').length < 3) {
+                    document.getElementById('fullname-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('fullname-error').style.display = 'none';
+                }
+                
+                // Проверка телефона
+                const phone = document.getElementById('phone').value;
+                if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(phone)) {
+                    document.getElementById('phone-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('phone-error').style.display = 'none';
+                }
+                
+                // Проверка email
+                const email = document.getElementById('email').value;
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('email-error').style.display = 'none';
+                }
+                
+                // Проверка логина
+                const login = document.getElementById('login').value;
+                if (login.length < 6 || !/^[А-Яа-яЁё0-9]+$/.test(login)) {
+                    document.getElementById('login-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('login-error').style.display = 'none';
+                }
+                
+                // Проверка пароля
+                const password = document.getElementById('password').value;
+                if (password.length < 6) {
+                    document.getElementById('password-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('password-error').style.display = 'none';
+                }
+                
+                // Подтверждение пароля
+                const confirmPassword = document.getElementById('confirm-password').value;
+                if (password !== confirmPassword) {
+                    document.getElementById('confirm-error').style.display = 'block';
+                    valid = false;
+                } else {
+                    document.getElementById('confirm-error').style.display = 'none';
+                }
+                
+                if (valid) {
+                    // Регистрация успешна
+                    alert('Регистрация прошла успешно! Теперь вы можете войти в систему.');
+                    showPage('login');
+                }
+            });
+            
+            // Авторизация
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+                
+                // Проверка логина и пароля
+                if (username && password) {
+                    if (username === 'admin' && password === 'education') {
+                        showPage('admin');
+                    } else {
+                        // Обычный пользователь
+                        showPage('applications');
+                    }
+                } else {
+                    document.getElementById('login-error').textContent = 'Введите логин и пароль';
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            });
+            
+            // Создание заявки
+            document.getElementById('application-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('app-success').style.display = 'block';
+                
+                // Через 2 секунды переходим на страницу заявок
+                setTimeout(function() {
+                    showPage('applications');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
