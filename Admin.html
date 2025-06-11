@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Грузовозофф - Панель администратора</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Грузовозофф</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="admin.html">Панель администратора</a></li>
+                    <li><a href="index.html">Выйти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Все заявки</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Дата и время</th>
+                    <th>Вес груза (кг)</th>
+                    <th>Тип груза</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Иванов Иван Иванович</td>
+                    <td>2025-06-12 10:00</td>
+                    <td>50</td>
+                    <td>Мебель</td>
+                    <td>Москва, ул. Ленина, 1</td>
+                    <td>Санкт-Петербург, Невский пр., 10</td>
+                    <td><button class="button delete-btn">Удалить</button></td>
+                </tr>
+                <!-- Другие заявки -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Обработка удаления заявки
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                row.remove();
+                // Здесь должен быть запрос на сервер для удаления заявки
+            });
+        });
+    </script>
+</body>
+</html>
