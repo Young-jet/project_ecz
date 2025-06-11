@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Грузовозофф - Портал грузоперевозок</title>
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #3498db;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-pending {
+            color: #f39c12;
+            font-weight: 500;
+        }
+        
+        .status-approved {
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        /* Стили для разных страниц */
+        #authPage {
+            background: linear-gradient(120deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #authPage .card {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #authPage h2:after {
+            background: #1a2a6c;
+        }
+        
+        #registerPage .card {
+            border-top: 5px solid #27ae60;
+        }
+        
+        #ordersPage .card {
+            border-top: 5px solid #3498db;
+        }
+        
+        #createOrderPage .card {
+            border-top: 5px solid #f39c12;
+        }
+        
+        #adminPage {
+            background: #2c3e50;
+            min-height: 100vh;
+        }
+        
+        #adminPage .card {
+            background: #34495e;
+            color: #ecf0f1;
+            border-top: 5px solid #e74c3c;
+        }
+        
+        #adminPage h2 {
+            color: #ecf0f1;
+        }
+        
+        #adminPage h2:after {
+            background: #e74c3c;
+        }
+        
+        #adminPage table {
+            color: #ecf0f1;
+        }
+        
+        #adminPage th {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .notification {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .notification-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .notification-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <span class="logo-icon">🚚</span>
+                <span>Грузовозофф</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('ordersPage')">Мои заявки</a></li>
+                <li><a href="#" onclick="showPage('createOrderPage')">Новая заявка</a></li>
+                <li><a href="#" onclick="logout()">Выйти</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Страницы системы -->
+    <div class="container">
+        <!-- Страница авторизации -->
+        <div id="authPage" class="page active">
+            <div class="card">
+                <h2>Вход в систему</h2>
+                <div id="authNotification" class="notification"></div>
+                <div class="form-group">
+                    <label for="login">Логин</label>
+                    <input type="text" id="login" placeholder="Введите ваш логин">
+                    <div class="error" id="loginError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                    <div class="error" id="passwordError"></div>
+                </div>
+                <button class="btn" onclick="authUser()">Войти</button>
+                <p style="margin-top: 20px; text-align: center;">
+                    Нет аккаунта? <a href="#" onclick="showPage('registerPage')">Зарегистрироваться</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Страница регистрации -->
+        <div id="registerPage" class="page">
+            <div class="card">
+                <h2>Регистрация</h2>
+                <div id="registerNotification" class="notification"></div>
+                <div class="form-group">
+                    <label for="fullName">ФИО</label>
+                    <input type="text" id="fullName" placeholder="Иванов Иван Иванович">
+                    <div class="error" id="fullNameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" placeholder="+7(XXX)-XXX-XX-XX">
+                    <div class="error" id="phoneError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="example@mail.ru">
+                    <div class="error" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regLogin">Логин (кириллица, не менее 6 символов)</label>
+                    <input type="text" id="regLogin" placeholder="Придумайте логин">
+                    <div class="error" id="regLoginError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Пароль (минимум 6 символов)</label>
+                    <input type="password" id="regPassword" placeholder="Придумайте пароль">
+                    <div class="error" id="regPasswordError"></div>
+                </div>
+                <button class="btn" onclick="registerUser()">Зарегистрироваться</button>
+                <p style="margin-top: 20px; text-align: center;">
+                    Уже есть аккаунт? <a href="#" onclick="showPage('authPage')">Войти</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Страница заявок -->
+        <div id="ordersPage" class="page">
+            <div class="card">
+                <h2>Мои заявки</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата/Время</th>
+                            <th>Вес груза (кг)</th>
+                            <th>Тип груза</th>
+                            <th>Откуда</th>
+                            <th>Куда</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersList">
+                        <!-- Заявки будут добавлены через JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Страница создания заявки -->
+        <div id="createOrderPage" class="page">
+            <div class="card">
+                <h2>Новая заявка на перевозку</h2>
+                <div id="orderNotification" class="notification"></div>
+                <div class="form-group">
+                    <label for="orderDate">Дата и время перевозки</label>
+                    <input type="datetime-local" id="orderDate">
+                    <div class="error" id="orderDateError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="cargoWeight">Вес груза (кг)</label>
+                    <input type="number" id="cargoWeight" placeholder="Пример: 150">
+                    <div class="error" id="cargoWeightError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="cargoType">Тип груза</label>
+                    <select id="cargoType">
+                        <option value="">Выберите тип</option>
+                        <option value="Мебель">Мебель</option>
+                        <option value="Бытовая техника">Бытовая техника</option>
+                        <option value="Строительные материалы">Строительные материалы</option>
+                        <option value="Продукты">Продукты</option>
+                        <option value="Документы">Документы</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+                    <div class="error" id="cargoTypeError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="fromAddress">Адрес отправления</label>
+                    <textarea id="fromAddress" rows="3" placeholder="Полный адрес с индексом"></textarea>
+                    <div class="error" id="fromAddressError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="toAddress">Адрес доставки</label>
+                    <textarea id="toAddress" rows="3" placeholder="Полный адрес с индексом"></textarea>
+                    <div class="error" id="toAddressError"></div>
+                </div>
+                <button class="btn" onclick="createOrder()">Отправить заявку</button>
+            </div>
+        </div>
+
+        <!-- Панель администратора -->
+        <div id="adminPage" class="page">
+            <div class="card">
+                <h2>Панель администратора</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Пользователь</th>
+                            <th>Дата/Время</th>
+                            <th>Тип груза</th>
+                            <th>Откуда</th>
+                            <th>Куда</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrdersList">
+                        <!-- Заявки будут добавлены через JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container">
+        <p>© 2024 Грузовозофф. Система заказа грузоперевозок</p>
+    </footer>
+
+    <script>
+        // Текущий пользователь
+        let currentUser = null;
+        // База данных в localStorage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        
+        // Отличительные черты разделов
+        const pageStyles = {
+            authPage: "linear-gradient(120deg, #1a2a6c, #b21f1f, #1a2a6c)",
+            registerPage: "#f5f7fa",
+            ordersPage: "#f5f7fa",
+            createOrderPage: "#f5f7fa",
+            adminPage: "#2c3e50"
+        };
+
+        // Показать страницу
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            document.body.style.background = pageStyles[pageId] || "#f5f7fa";
+        }
+
+        // Валидация телефона
+        function validatePhone(phone) {
+            const regex = /^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+            return regex.test(phone);
+        }
+
+        // Валидация email
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        // Валидация логина (кириллица, мин 6 символов)
+        function validateLogin(login) {
+            const regex = /^[А-Яа-яЁё]{6,}$/;
+            return regex.test(login);
+        }
+
+        // Показать уведомление
+        function showNotification(elementId, message, isSuccess) {
+            const notification = document.getElementById(elementId);
+            notification.textContent = message;
+            notification.className = `notification ${isSuccess ? 'notification-success' : 'notification-error'}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        // Регистрация пользователя
+        function registerUser() {
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const login = document.getElementById('regLogin').value;
+            const password = document.getElementById('regPassword').value;
+            
+            let valid = true;
+            
+            // Сброс ошибок
+            document.querySelectorAll('#registerPage .error').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Валидация
+            if (!fullName.trim()) {
+                document.getElementById('fullNameError').textContent = 'Введите ФИО';
+                document.getElementById('fullNameError').style.display = 'block';
+                valid = false;
+            }
+            
+            if (!validatePhone(phone)) {
+                document.getElementById('phoneError').textContent = 'Формат: +7(XXX)-XXX-XX-XX';
+                document.getElementById('phoneError').style.display = 'block';
+                valid = false;
+            }
+            
+            if (!validateEmail(email)) {
+                document.getElementById('emailError').textContent = 'Введите корректный email';
+                document.getElementById('emailError').style.display = 'block';
+                valid = false;
+            }
+            
+            if (!validateLogin(login)) {
+                document.getElementById('regLoginError').textContent = 'Логин (кириллица, мин 6 символов)';
+                document.getElementById('regLoginError').style.display = 'block';
+                valid = false;
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('regPasswordError').textContent = 'Пароль должен быть не менее 6 символов';
+                document.getElementById('regPasswordError').style.display = 'block';
+                valid = false;
+            }
+            
+            // Проверка уникальности логина
+            if (users.some(user => user.login === login)) {
+                document.getElementById('regLoginError').textContent = 'Логин уже занят';
+                document.getElementById('regLoginError').style.display = 'block';
+                valid = false;
+            }
+            
+            if (!valid) return;
+            
+            // Добавление пользователя
+            const newUser = {
+                id: Date.now(),
+                fullName,
+                phone,
+                email,
+                login,
+                password,
+                isAdmin: false
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            showNotification('registerNotification', 'Регистрация прошла успешно!', true);
+            setTimeout(() => {
+                showPage('authPage');
+                document.getElementById('login').value = login;
+            }, 1500);
+        }
+
+        // Авторизация пользователя
+        function authUser() {
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            
+            // Специальный доступ для администратора
+            if (login === 'admin' && password === 'gruzovik2024') {
+                currentUser = {
+                    login: 'admin',
+                    isAdmin: true
+                };
+                showPage('adminPage');
+                loadAdminOrders();
+                return;
+            }
+            
+            const user = users.find
