@@ -1,0 +1,176 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #0779e4 3px solid;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header ul {
+    padding: 0;
+    list-style: none;
+}
+
+header li {
+    display: inline;
+    padding: 0 20px;
+}
+
+header #branding {
+    float: left;
+}
+
+header #branding h1 {
+    margin: 0;
+}
+
+header nav {
+    float: right;
+    margin-top: 10px;
+}
+
+.button {
+    height: 38px;
+    background: #0779e4;
+    border: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Стили для форм */
+.form-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.error {
+    color: red;
+    font-size: 0.8em;
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Специфичные стили для страниц */
+
+/* Авторизация */
+.login-page {
+    background: url('truck-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+/* Регистрация */
+.register-page {
+    background-color: #e3f2fd;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+/* Просмотр заявок */
+.orders-page {
+    padding: 20px 0;
+}
+
+/* Создание заявки */
+.create-order-page {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+/* Панель администратора */
+.admin-page {
+    background-color: #333;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.admin-page table {
+    color: #fff;
+}
+
+.admin-page th {
+    background-color: #444;
+}
+
+.admin-page tr:hover {
+    background-color: #555;
+}
