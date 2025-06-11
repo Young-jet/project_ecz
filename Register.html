@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Грузовозофф - Регистрация</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="register-page">
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Грузовозофф</span></h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Регистрация</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullname">ФИО</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                    <div class="error" id="fullnameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7(XXX)-XXX-XX-XX" required>
+                    <div class="error" id="phoneError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regLogin">Логин</label>
+                    <input type="text" id="regLogin" name="regLogin" required>
+                    <div class="error" id="loginError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Пароль</label>
+                    <input type="password" id="regPassword" name="regPassword" required>
+                    <div class="error" id="passwordError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Подтвердите пароль</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <div class="error" id="confirmPasswordError"></div>
+                </div>
+                <button type="submit" class="button">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Валидация формы регистрации
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Проверка ФИО: только кириллица и пробелы
+            const fullname = document.getElementById('fullname').value;
+            const fullnameRegex = /^[А-Яа-яЁё\s]+$/;
+            if (!fullnameRegex.test(fullname)) {
+                document.getElementById('fullnameError').textContent = 'ФИО должно содержать только кириллические буквы и пробелы';
+                isValid = false;
+            } else {
+                document.getElementById('fullnameError').textContent = '';
+            }
+
+            // Проверка телефона: формат +7(XXX)-XXX-XX-XX
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').textContent = 'Телефон должен быть в формате +7(XXX)-XXX-XX-XX';
+                isValid = false;
+            } else {
+                document.getElementById('phoneError').textContent = '';
+            }
+
+            // Проверка email
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Введите корректный email';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            // Проверка логина: кириллица, не менее 6 символов
+            const login = document.getElementById('regLogin').value;
+            const loginRegex = /^[А-Яа-яЁё]{6,}$/;
+            if (!loginRegex.test(login)) {
+                document.getElementById('loginError').textContent = 'Логин должен содержать только кириллические буквы и быть не менее 6 символов';
+                isValid = false;
+            } else {
+                document.getElementById('loginError').textContent = '';
+            }
+
+            // Проверка пароля: минимум 6 символов
+            const password = document.getElementById('regPassword').value;
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Пароль должен быть не менее 6 символов';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').textContent = '';
+            }
+
+            // Подтверждение пароля
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Пароли не совпадают';
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').textContent = '';
+            }
+
+            if (isValid) {
+                // Отправка формы (здесь должна быть отправка на сервер)
+                alert('Регистрация прошла успешно!');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Маска для телефона
+        document.getElementById('phone').addEventListener('input', function (e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] : x[1] + '(' + x[2] + ')' + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+    </script>
+</body>
+</html>
